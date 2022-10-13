@@ -1,0 +1,8 @@
+mutation AddConference($name: String!, $city: String!) {
+  addConference(conference: {
+    name: $name,
+    city: $city
+  }) {
+    id
+  }
+}

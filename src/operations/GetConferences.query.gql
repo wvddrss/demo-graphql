@@ -1,0 +1,7 @@
+query GetConferences {
+  conferences {
+    id
+    name
+    city
+  }
+}
