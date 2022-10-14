@@ -1,5 +1,5 @@
 mutation AddPerson ($person: InputPerson!) {
-  addPerson(person:$person) {
-    id
-  }
+	addPerson(person:$person) {
+		id
+	}
 }

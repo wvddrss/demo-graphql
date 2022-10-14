@@ -1,8 +1,8 @@
 query GetPersons {
-  persons {
-    id
-    name
-    blog
-    githubAccount
-  }
+	persons {
+		id
+		name
+		blog
+		githubAccount
+	}
 }

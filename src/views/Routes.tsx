@@ -1,5 +1,5 @@
 import {
-  BrowserRouter as Router,
+	BrowserRouter as Router,
 	Navigate,
 	Route,
 	Routes,
@@ -11,7 +11,7 @@ export default function AllRoutes () {
 		<Route key={route.key} path={route.path} element={route.component} />
 	)
 	const routesJsxWithRedirect = [
-		<Route key={'index'} path={'/'} element={<Navigate to='/conferences' replace={true}  />} />,
+		<Route key={'index'} path={'/'} element={<Navigate to='/conferences' replace={true}	/>} />,
 		...routesJsx,
 	]
 	return (

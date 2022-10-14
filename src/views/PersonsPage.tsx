@@ -20,7 +20,7 @@ export default function PersonPage () {
 
 	let content: JSX.Element[] | JSX.Element = <TableRow><TableCell colSpan={3}>No people yet...</TableCell></TableRow>
 	if (loading) {
-		content =  <TableRow><TableCell colSpan={3}><CircularProgress /></TableCell></TableRow>
+		content =	<TableRow><TableCell colSpan={3}><CircularProgress /></TableCell></TableRow>
 	} else if (data &&
 		data.persons &&
 		data.persons.length > 0) {

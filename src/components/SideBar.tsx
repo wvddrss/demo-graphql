@@ -9,7 +9,9 @@ export default function SideBar () {
 			<List component="nav" style={{paddingTop: 90}}>
 				{mainRoutes.map(route => (
 					<ListItemButton key={route.key} onClick={() => navigate(route.path)}>
-						<ListItemIcon>
+						<ListItemIcon sx={{
+							minWidth: 32,
+						}}>
 							{route.icon}
 						</ListItemIcon>
 						<ListItemText primary={route.label} />

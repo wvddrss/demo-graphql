@@ -1,5 +1,6 @@
 
-import { Camera, Mic, People } from '@mui/icons-material'
+import { Camera, Mic, People, Comment } from '@mui/icons-material'
+import CommentsPage from '../views/CommentsPage'
 import ConferencePage from '../views/ConferencePage'
 import ConferencesPage from '../views/ConferencesPage'
 import PersonsPage from '../views/PersonsPage'
@@ -23,6 +24,12 @@ export const mainRoutes = [{
 	label: 'Talks',
 	component: <TalksPage />,
 	icon: <Mic />
+}, {
+	key: 'comments',
+	path: '/comments',
+	label: 'Comments',
+	component: <CommentsPage />,
+	icon: <Comment />
 }]
 
 const subRoutes = [{

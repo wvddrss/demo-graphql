@@ -1,5 +1,5 @@
 mutation AddTalk ($talkInput: InputTalk!) {
-  addTalk(talk:$talkInput) {
-    id
-  }
+	addTalk(talk:$talkInput) {
+		id
+	}
 }

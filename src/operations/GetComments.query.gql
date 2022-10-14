@@ -1,0 +1,17 @@
+query getComments {
+	comments {
+		content {
+			id
+			comment
+			createdOn
+			author
+		}
+		pageInfo {
+			totalElements
+			totalPages
+			numberOfElements
+			pageNumber
+			pageSize
+		}
+	}
+}

@@ -1,63 +1,48 @@
 import { gql } from "@apollo/client"
 import { TextField, Dialog, DialogTitle, DialogContent, DialogActions, Button, DialogProps } from "@mui/material"
 import { useFormik } from "formik"
-import { InputTalk, useAddTalkMutation } from "../../lib/generated/gql/graphql"
+import { InputComment, useAddCommentMutation } from "../../lib/generated/gql/graphql"
 
 interface IProps extends DialogProps {
 	onAdded: (id: string) => void
 	onCancel: () => void
+	talkId: string
 }
 
-const labels: Record<keyof InputTalk, string> = {
-	title: 'Title',
-	summary: 'Summary'
+const labels: Record<keyof InputComment, string> = {
+	comment: 'Comment',
+	author: 'Author',
 }
 
 export default function AddTalkModal ({
 	onAdded,
 	onCancel,
+	talkId,
 	...props
 }: IProps) {
 
-	const [mutate, { loading }] = useAddTalkMutation({
+	const [mutate, { loading }] = useAddCommentMutation({
 		onCompleted: (data) => {
 			if (data &&
-				data.addTalk) {
-				onAdded(data.addTalk?.id)
+				data.addComment) {
+				onAdded(data.addComment?.id)
 			}
 		},
-		update: (cache, result) => {
-			cache.modify({
-				fields: {
-					talks(existingTalks = []) {
-						const newTalkRef = cache.writeFragment({
-							data: {
-								...result.data?.addTalk,
-								...formik.values,
-							},
-							fragment: gql`
-								fragment NewTalk on talk {
-									title,
-									summary,
-								}
-							`
-						})
-						return [...existingTalks, newTalkRef]
-					}
-				}
-			})
-		}
+		// will be replaced by sockets
 	})
 
-	const formik = useFormik<InputTalk>({
+	const formik = useFormik<Omit<InputComment, 'talkId'>>({
 		initialValues: {
-			title: 'Title of talk',
-			summary: 'Lorem ipsum ;)....',
+			comment: 'OMG! Geweldig',
+			author: 'Me',
 		},
 		onSubmit: (values) => {
 			mutate({
 				variables: {
-					talkInput: values
+					comment: {
+						...values,
+						talkId,
+					}
 				}
 			})
 		}
@@ -76,13 +61,13 @@ export default function AddTalkModal ({
 				margin="dense"
 				id={field}
 				name={field}
-				label={labels[field as keyof InputTalk]}
+				label={labels[field as keyof InputComment]}
 				type="text"
 				fullWidth
 				onChange={formik.handleChange}
-				value={formik.values[field as keyof InputTalk]}
-				error={formik.touched[field as keyof InputTalk] && Boolean(formik.errors[field as keyof InputTalk])}
-				helperText={formik.touched[field as keyof InputTalk] && formik.errors[field as keyof InputTalk]}
+				value={formik.values[field as keyof InputComment]}
+				error={formik.touched[field as keyof InputComment] && Boolean(formik.errors[field as keyof InputComment])}
+				helperText={formik.touched[field as keyof InputComment] && formik.errors[field as keyof InputComment]}
 				variant="standard"
 			/>
 		))

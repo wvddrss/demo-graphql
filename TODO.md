@@ -14,6 +14,17 @@
 
 
 ## TDOO
++ list comments
+	- write helper for dates
+	- use subscriptions
+- edit conference view
+	- add comment
+	- add talks
+	- add speakers
+- check subscriptions
+
+
+## DONE
 + list of conferences
 + add conference
 	+ use formik for form validation
@@ -22,9 +33,4 @@
 + add persons
 	! name should not be optional
 + list of talks
-- add talks
-- edit conference view
-	- add talks
-	- add speakers
-- check subscriptions
-
++ add talks

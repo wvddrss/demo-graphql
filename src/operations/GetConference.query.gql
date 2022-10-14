@@ -1,18 +1,18 @@
 query GetConference($id:Long!) {
-  conference(id: $id) {
-    id
-    name
-    city
-    talks {
-      id
-      title
-      summary
-      speakers {
-        id
-        name
-        blog
-        githubAccount
-      }
-    }
-  }
+	conference(id: $id) {
+		id
+		name
+		city
+		talks {
+			id
+			title
+			summary
+			speakers {
+				id
+				name
+				blog
+				githubAccount
+			}
+		}
+	}
 }
