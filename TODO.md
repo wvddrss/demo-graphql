@@ -18,7 +18,13 @@
 + add conference
 	+ use formik for form validation
 	+ write cache after mutatation
++ list of persons
++ add persons
+	! name should not be optional
++ list of talks
+- add talks
 - edit conference view
 	- add talks
 	- add speakers
+- check subscriptions
 

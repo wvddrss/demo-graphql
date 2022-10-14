@@ -1,0 +1,5 @@
+mutation AddTalk ($talkInput: InputTalk!) {
+  addTalk(talk:$talkInput) {
+    id
+  }
+}

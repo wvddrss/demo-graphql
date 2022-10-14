@@ -1,5 +1,5 @@
-import { CircularProgress, Fab, Grid, Modal, Paper, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import { Link, useNavigate, useNavigation } from "react-router-dom";
+import { CircularProgress, Fab, Grid, Paper, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 import { useGetConferencesQuery } from "../lib/generated/gql/graphql";
 import BaseView from "./BaseView";
 import AddIcon from '@mui/icons-material/Add'
@@ -24,7 +24,7 @@ export default function ConferencesPage () {
 
 	let content: JSX.Element[] | JSX.Element = <TableRow><TableCell colSpan={3}>No conferences yet...</TableCell></TableRow>
 	if (loading) {
-		content = <CircularProgress />
+		content = <TableRow><TableCell colSpan={3}><CircularProgress /></TableCell></TableRow>
 	} else if (data &&
 		data.conferences &&
 		data.conferences.length > 0) {

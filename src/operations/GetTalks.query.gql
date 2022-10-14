@@ -1,0 +1,7 @@
+query getTalks {
+  talks {
+    id,
+    title
+    summary
+  }
+}

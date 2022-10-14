@@ -1,5 +1,6 @@
 import { ChevronLeft } from '@mui/icons-material';
-import { AppBar as MuiAppBar, AppBarProps, Box, Container, Grid, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, styled, Toolbar, Typography } from '@mui/material';
+import { AppBar as MuiAppBar, AppBarProps, Box, Container, Grid, IconButton, styled, Toolbar, Typography } from '@mui/material';
+import SideBar from '../components/SideBar';
 
 const AppBar = styled(MuiAppBar)<AppBarProps>(({ theme }) => ({
 	zIndex: theme.zIndex.drawer + 1,
@@ -20,6 +21,7 @@ export default function BaseView ({
 }: IProps) {
 	return (
 		<>
+			<SideBar />
 			<AppBar position="absolute">
 				<Toolbar
 					sx={{

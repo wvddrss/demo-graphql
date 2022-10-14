@@ -261,6 +261,20 @@ export type AddConferenceMutationVariables = Exact<{
 
 export type AddConferenceMutation = { __typename?: 'Mutation', addConference?: { __typename?: 'Conference', id: string } | null };
 
+export type AddPersonMutationVariables = Exact<{
+  person: InputPerson;
+}>;
+
+
+export type AddPersonMutation = { __typename?: 'Mutation', addPerson?: { __typename?: 'Person', id: string } | null };
+
+export type AddTalkMutationVariables = Exact<{
+  talkInput: InputTalk;
+}>;
+
+
+export type AddTalkMutation = { __typename?: 'Mutation', addTalk?: { __typename?: 'Talk', id: string } | null };
+
 export type GetConferenceQueryVariables = Exact<{
   id: Scalars['Long'];
 }>;
@@ -272,6 +286,16 @@ export type GetConferencesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetConferencesQuery = { __typename?: 'Query', conferences?: Array<{ __typename?: 'Conference', id: string, name: string, city?: string | null }> | null };
+
+export type GetPersonsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPersonsQuery = { __typename?: 'Query', persons?: Array<{ __typename?: 'Person', id: string, name: string, blog?: string | null, githubAccount?: string | null }> | null };
+
+export type GetTalksQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTalksQuery = { __typename?: 'Query', talks?: Array<{ __typename?: 'Talk', id: string, title: string, summary?: string | null }> | null };
 
 
 export const AddConferenceDocument = gql`
@@ -308,6 +332,72 @@ export function useAddConferenceMutation(baseOptions?: Apollo.MutationHookOption
 export type AddConferenceMutationHookResult = ReturnType<typeof useAddConferenceMutation>;
 export type AddConferenceMutationResult = Apollo.MutationResult<AddConferenceMutation>;
 export type AddConferenceMutationOptions = Apollo.BaseMutationOptions<AddConferenceMutation, AddConferenceMutationVariables>;
+export const AddPersonDocument = gql`
+    mutation AddPerson($person: InputPerson!) {
+  addPerson(person: $person) {
+    id
+  }
+}
+    `;
+export type AddPersonMutationFn = Apollo.MutationFunction<AddPersonMutation, AddPersonMutationVariables>;
+
+/**
+ * __useAddPersonMutation__
+ *
+ * To run a mutation, you first call `useAddPersonMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddPersonMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addPersonMutation, { data, loading, error }] = useAddPersonMutation({
+ *   variables: {
+ *      person: // value for 'person'
+ *   },
+ * });
+ */
+export function useAddPersonMutation(baseOptions?: Apollo.MutationHookOptions<AddPersonMutation, AddPersonMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddPersonMutation, AddPersonMutationVariables>(AddPersonDocument, options);
+      }
+export type AddPersonMutationHookResult = ReturnType<typeof useAddPersonMutation>;
+export type AddPersonMutationResult = Apollo.MutationResult<AddPersonMutation>;
+export type AddPersonMutationOptions = Apollo.BaseMutationOptions<AddPersonMutation, AddPersonMutationVariables>;
+export const AddTalkDocument = gql`
+    mutation AddTalk($talkInput: InputTalk!) {
+  addTalk(talk: $talkInput) {
+    id
+  }
+}
+    `;
+export type AddTalkMutationFn = Apollo.MutationFunction<AddTalkMutation, AddTalkMutationVariables>;
+
+/**
+ * __useAddTalkMutation__
+ *
+ * To run a mutation, you first call `useAddTalkMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddTalkMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addTalkMutation, { data, loading, error }] = useAddTalkMutation({
+ *   variables: {
+ *      talkInput: // value for 'talkInput'
+ *   },
+ * });
+ */
+export function useAddTalkMutation(baseOptions?: Apollo.MutationHookOptions<AddTalkMutation, AddTalkMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddTalkMutation, AddTalkMutationVariables>(AddTalkDocument, options);
+      }
+export type AddTalkMutationHookResult = ReturnType<typeof useAddTalkMutation>;
+export type AddTalkMutationResult = Apollo.MutationResult<AddTalkMutation>;
+export type AddTalkMutationOptions = Apollo.BaseMutationOptions<AddTalkMutation, AddTalkMutationVariables>;
 export const GetConferenceDocument = gql`
     query GetConference($id: Long!) {
   conference(id: $id) {
@@ -392,3 +482,76 @@ export function useGetConferencesLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetConferencesQueryHookResult = ReturnType<typeof useGetConferencesQuery>;
 export type GetConferencesLazyQueryHookResult = ReturnType<typeof useGetConferencesLazyQuery>;
 export type GetConferencesQueryResult = Apollo.QueryResult<GetConferencesQuery, GetConferencesQueryVariables>;
+export const GetPersonsDocument = gql`
+    query GetPersons {
+  persons {
+    id
+    name
+    blog
+    githubAccount
+  }
+}
+    `;
+
+/**
+ * __useGetPersonsQuery__
+ *
+ * To run a query within a React component, call `useGetPersonsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPersonsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPersonsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetPersonsQuery(baseOptions?: Apollo.QueryHookOptions<GetPersonsQuery, GetPersonsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPersonsQuery, GetPersonsQueryVariables>(GetPersonsDocument, options);
+      }
+export function useGetPersonsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPersonsQuery, GetPersonsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPersonsQuery, GetPersonsQueryVariables>(GetPersonsDocument, options);
+        }
+export type GetPersonsQueryHookResult = ReturnType<typeof useGetPersonsQuery>;
+export type GetPersonsLazyQueryHookResult = ReturnType<typeof useGetPersonsLazyQuery>;
+export type GetPersonsQueryResult = Apollo.QueryResult<GetPersonsQuery, GetPersonsQueryVariables>;
+export const GetTalksDocument = gql`
+    query getTalks {
+  talks {
+    id
+    title
+    summary
+  }
+}
+    `;
+
+/**
+ * __useGetTalksQuery__
+ *
+ * To run a query within a React component, call `useGetTalksQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTalksQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTalksQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetTalksQuery(baseOptions?: Apollo.QueryHookOptions<GetTalksQuery, GetTalksQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTalksQuery, GetTalksQueryVariables>(GetTalksDocument, options);
+      }
+export function useGetTalksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTalksQuery, GetTalksQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTalksQuery, GetTalksQueryVariables>(GetTalksDocument, options);
+        }
+export type GetTalksQueryHookResult = ReturnType<typeof useGetTalksQuery>;
+export type GetTalksLazyQueryHookResult = ReturnType<typeof useGetTalksLazyQuery>;
+export type GetTalksQueryResult = Apollo.QueryResult<GetTalksQuery, GetTalksQueryVariables>;

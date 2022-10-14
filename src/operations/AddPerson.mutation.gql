@@ -1,0 +1,5 @@
+mutation AddPerson ($person: InputPerson!) {
+  addPerson(person:$person) {
+    id
+  }
+}

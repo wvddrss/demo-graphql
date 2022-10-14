@@ -1,5 +1,5 @@
-import { Grid, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
-import { RouteProps, useNavigate, useParams } from "react-router-dom";
+import { Grid, Paper, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
 import BaseView from "./BaseView";
 import { useGetConferenceQuery } from '../lib/generated/gql/graphql'
 
@@ -41,9 +41,11 @@ export default function ConferencePage () {
 					>
 						<Table>
 							<TableHead>
-								<TableCell>
-									Talks
-								</TableCell>
+								<TableRow>
+									<TableCell>
+										Talks
+									</TableCell>
+								</TableRow>
 							</TableHead>
 							<TableBody>
 								{data?.conference?.talks?.map(talk => (

@@ -1,7 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogProps, DialogTitle, TextField } from "@mui/material";
 import { useFormik } from "formik";
-import { InputConference, useAddConferenceMutation } from '../../lib/generated/gql/graphql'
-import * as yup from 'yup'
+import { InputPerson, useAddPersonMutation } from '../../lib/generated/gql/graphql'
 import { gql } from '@apollo/client'
 
 interface IProps extends DialogProps {
@@ -9,63 +8,61 @@ interface IProps extends DialogProps {
 	onCancel: () => void
 }
 
-const validationSchema = yup.object({
-	name: yup.string().required('Name is required'),
-	city: yup.string().required('City is required'),
-})
-
-
-const labels: Record<keyof InputConference, string> = {
+const labels: Record<keyof InputPerson, string> = {
 	name: 'Name',
-	city: 'City'
+	githubAccount: 'Github account',
+	blog: 'Blog',
 }
 
-export function AddConferenceModal ({
+export default function AddPersonModal ({
 	onAdded,
 	onCancel,
 	...props
 }: IProps) {
 	const [mutate, {
 		loading
-	}] = useAddConferenceMutation({
+	}] = useAddPersonMutation({
 		onCompleted: (data) => {
 			if (data &&
-				data.addConference) {
-				onAdded(data.addConference?.id)
+				data.addPerson) {
+				onAdded(data.addPerson?.id)
 			}
 		},
 		update: (cache, result) => {
 			cache.modify({
 				fields: {
-					conferences(existingConferences = []) {
-						const newConferenceRef = cache.writeFragment({
+					persons(existingPersons = []) {
+						const newPersonRef = cache.writeFragment({
 							data: {
-								...result.data?.addConference,
+								...result.data?.addPerson,
 								...formik.values,
 							},
 							fragment: gql`
-								fragment NewConference on conference {
+								fragment NewPerson on person {
 									name,
-									city
+									blog,
+									githubAccount,
 								}
 							`
 						})
-						return [...existingConferences, newConferenceRef]
+						return [...existingPersons, newPersonRef]
 					}
 				}
 			})
 		}
 	})
 
-	const formik = useFormik({
+	const formik = useFormik<InputPerson>({
 		initialValues: {
-			name: 'Conference name',
-			city: 'Bissegem'
+			name: 'Dirk',
+			blog: 'http://blog.url',
+			githubAccount: 'dirkske',
 		},
-		validationSchema,
 		onSubmit: (values) => {
 			mutate({
-				variables: values
+				variables: {
+					person: values
+				}
 			})
 		}
 	})
@@ -74,8 +71,7 @@ export function AddConferenceModal ({
 		formik.resetForm()
 		onCancel()
 	}
-
-
+	
 	const generateTextFields = () => {
 		return Object.keys(labels).map(field => (
 			<TextField
@@ -84,13 +80,13 @@ export function AddConferenceModal ({
 				margin="dense"
 				id={field}
 				name={field}
-				label={labels[field as keyof InputConference]}
+				label={labels[field as keyof InputPerson]}
 				type="text"
 				fullWidth
 				onChange={formik.handleChange}
-				value={formik.values[field as keyof InputConference]}
-				error={formik.touched[field as keyof InputConference] && Boolean(formik.errors[field as keyof InputConference])}
-				helperText={formik.touched[field as keyof InputConference] && formik.errors[field as keyof InputConference]}
+				value={formik.values[field as keyof InputPerson]}
+				error={formik.touched[field as keyof InputPerson] && Boolean(formik.errors[field as keyof InputPerson])}
+				helperText={formik.touched[field as keyof InputPerson] && formik.errors[field as keyof InputPerson]}
 				variant="standard"
 			/>
 		))
@@ -98,7 +94,7 @@ export function AddConferenceModal ({
 
 	return (
 		<Dialog {...props} onClose={onCancel}>
-			<DialogTitle>Add a new conference</DialogTitle>
+			<DialogTitle>Add a new person</DialogTitle>
 			<form onSubmit={formik.handleSubmit}>
 				<DialogContent>
 					{generateTextFields()}
