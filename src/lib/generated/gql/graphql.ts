@@ -282,10 +282,18 @@ export type AddTalkMutationVariables = Exact<{
 
 export type AddTalkMutation = { __typename?: 'Mutation', addTalk?: { __typename?: 'Talk', id: string } | null };
 
+export type AddTalkToConferenceMutationVariables = Exact<{
+  conferenceId: Scalars['Long'];
+  talkId: Scalars['Long'];
+}>;
+
+
+export type AddTalkToConferenceMutation = { __typename?: 'Mutation', addTalkToConference?: { __typename?: 'Conference', id: string, talks?: Array<{ __typename?: 'Talk', id: string, title: string, summary?: string | null }> | null } | null };
+
 export type GetCommentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCommentsQuery = { __typename?: 'Query', comments?: { __typename?: 'CommentPageableResponse', content?: Array<{ __typename?: 'Comment', id: string, comment: string, createdOn?: string | null, author: string } | null> | null, pageInfo: { __typename?: 'PageInfo', totalElements: any, totalPages: any, numberOfElements: any, pageNumber: any, pageSize: any } } | null };
+export type GetCommentsQuery = { __typename?: 'Query', comments?: { __typename?: 'CommentPageableResponse', content?: Array<{ __typename?: 'Comment', id: string, comment: string, createdOn?: string | null, author: string, talk: { __typename?: 'Talk', id: string, title: string, summary?: string | null } } | null> | null, pageInfo: { __typename?: 'PageInfo', totalElements: any, totalPages: any, numberOfElements: any, pageNumber: any, pageSize: any } } | null };
 
 export type GetNewCommentsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -455,6 +463,45 @@ export function useAddTalkMutation(baseOptions?: Apollo.MutationHookOptions<AddT
 export type AddTalkMutationHookResult = ReturnType<typeof useAddTalkMutation>;
 export type AddTalkMutationResult = Apollo.MutationResult<AddTalkMutation>;
 export type AddTalkMutationOptions = Apollo.BaseMutationOptions<AddTalkMutation, AddTalkMutationVariables>;
+export const AddTalkToConferenceDocument = gql`
+    mutation AddTalkToConference($conferenceId: Long!, $talkId: Long!) {
+  addTalkToConference(conferenceId: $conferenceId, talkId: $talkId) {
+    id
+    talks {
+      id
+      title
+      summary
+    }
+  }
+}
+    `;
+export type AddTalkToConferenceMutationFn = Apollo.MutationFunction<AddTalkToConferenceMutation, AddTalkToConferenceMutationVariables>;
+
+/**
+ * __useAddTalkToConferenceMutation__
+ *
+ * To run a mutation, you first call `useAddTalkToConferenceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddTalkToConferenceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addTalkToConferenceMutation, { data, loading, error }] = useAddTalkToConferenceMutation({
+ *   variables: {
+ *      conferenceId: // value for 'conferenceId'
+ *      talkId: // value for 'talkId'
+ *   },
+ * });
+ */
+export function useAddTalkToConferenceMutation(baseOptions?: Apollo.MutationHookOptions<AddTalkToConferenceMutation, AddTalkToConferenceMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddTalkToConferenceMutation, AddTalkToConferenceMutationVariables>(AddTalkToConferenceDocument, options);
+      }
+export type AddTalkToConferenceMutationHookResult = ReturnType<typeof useAddTalkToConferenceMutation>;
+export type AddTalkToConferenceMutationResult = Apollo.MutationResult<AddTalkToConferenceMutation>;
+export type AddTalkToConferenceMutationOptions = Apollo.BaseMutationOptions<AddTalkToConferenceMutation, AddTalkToConferenceMutationVariables>;
 export const GetCommentsDocument = gql`
     query getComments {
   comments {
@@ -463,6 +510,11 @@ export const GetCommentsDocument = gql`
       comment
       createdOn
       author
+      talk {
+        id
+        title
+        summary
+      }
     }
     pageInfo {
       totalElements

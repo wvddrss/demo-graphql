@@ -5,6 +5,11 @@ query getComments {
 			comment
 			createdOn
 			author
+			talk {
+				id
+				title
+				summary
+			}
 		}
 		pageInfo {
 			totalElements

@@ -1,0 +1,10 @@
+mutation AddTalkToConference ($conferenceId: Long!, $talkId: Long!) {
+  addTalkToConference(conferenceId: $conferenceId, talkId: $talkId){
+   	 id
+    talks {
+      id
+      title
+      summary
+    }
+  }
+}

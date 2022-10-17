@@ -1,4 +1,4 @@
-import { Button, Divider, Modal, Paper, Typography } from "@mui/material";
+import { Button, Divider, Paper, Typography } from "@mui/material";
 import { useState } from "react";
 import { useGetTalkQuery } from "../../lib/generated/gql/graphql";
 import AddCommentModal from "../modals/AddCommentModal";
@@ -42,7 +42,7 @@ export default function Talk ({
 			<Button onClick={onAddComment}>
 				Add comment
 			</Button>
-			{data.talk.id && <AddCommentModal open={open} talkId={data.talk.id} onAdded={() => setOpen(false)} onCancel={() => setOpen(false)} />}
+			{data && data.talk && data.talk.id && <AddCommentModal open={open} talkId={data.talk.id} onAdded={() => setOpen(false)} onCancel={() => setOpen(false)} />}
 		</Paper>
 	)
 }

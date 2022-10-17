@@ -8,6 +8,7 @@
 6. `npm install react-router-dom`
 7. `npm install -D @graphql-codegen/typescript-react-apollo`
 8. `npm install formik`
+9. !!`npm install subscriptions-transport-ws` instead of `graphql-ws`
 
 ## Process
 1. BaseView that contains appbar title
@@ -16,9 +17,8 @@
 ## TDOO
 + list comments
 	- write helper for dates
-	- use subscriptions
 - edit conference view
-	- add comment
+	+ add comment
 	- add talks
 	- add speakers
 - check subscriptions
@@ -34,3 +34,7 @@
 	! name should not be optional
 + list of talks
 + add talks
++ list comments
+	- write helper for dates
+	- write pager
+	+ use subscriptions

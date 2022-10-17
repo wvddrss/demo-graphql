@@ -1,22 +1,50 @@
 import { Card, CardContent, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import { useGetCommentsQuery, useGetNewCommentsSubscription } from "../lib/generated/gql/graphql";
+import { useEffect } from "react";
+import { useGetCommentsQuery, GetNewCommentsDocument, GetCommentsQuery } from "../lib/generated/gql/graphql";
 import BaseView from "./BaseView";
 
 export default function CommentsPage () {
 	const {
-		data
-	} = useGetCommentsQuery({
-		
-	})
+		data,
+		subscribeToMore
+	} = useGetCommentsQuery()
+	
+	useEffect(() => {
+		subscribeToMore({
+			document: GetNewCommentsDocument,
+			updateQuery: (prev, { subscriptionData }) => {
+				if (!prev || !prev.comments || !prev.comments.content) return prev;
+				const newCommentItem = subscriptionData.data.comments;
+				let newContent = [...prev.comments.content]
+				if (prev.comments.pageInfo.pageSize === prev.comments.pageInfo.numberOfElements) {
+					newContent.splice(newContent.length, 1)
+				}
+				//@ts-ignore
+				newContent.unshift(newCommentItem)
+				const mergedWithOldData = {
+					...prev,
+					comments: {
+						...prev.comments,
+						content: newContent
+					},
+				} as GetCommentsQuery
+				return mergedWithOldData as GetCommentsQuery;
+			}
+		})
+	}, [subscribeToMore])
 
-	const {
-		data: newComments
-	} = useGetNewCommentsSubscription()
+	useEffect(() => {
+		console.log('new Data', data)
+	}, [data])
 
 	let content
 
-	console.log({ newComments })
+	const formatDate = (date: string | undefined | null) => {
+		if (!date) {
+			return null
+		}
+		return new Date(date.split('[')[0]).toLocaleTimeString()
+	}
 
 	if (!data ||
 		!data.comments ||
@@ -34,31 +62,14 @@ export default function CommentsPage () {
 							Posted on
 						</TableCell>
 						<TableCell>
+							Talk
+						</TableCell>
+						<TableCell>
 							Author
 						</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{newComments?.comments?.content?.map(comment => {
-						console.log('comment', comment?.createdOn)
-						if (comment) {
-							return (
-								<TableRow key={comment.id}>
-									<TableCell>
-										{comment?.comment}
-									</TableCell>
-									<TableCell>
-										{comment?.createdOn.toString()}
-									</TableCell>
-									<TableCell>
-										{comment?.author}
-									</TableCell>
-								</TableRow>
-							)
-						} else {
-							return null
-						}
-					})}
 					{data.comments.content?.map(comment => {
 						console.log('comment', comment?.createdOn)
 						if (comment) {
@@ -68,7 +79,10 @@ export default function CommentsPage () {
 										{comment?.comment}
 									</TableCell>
 									<TableCell>
-										{comment?.createdOn.toString()}
+										{formatDate(comment?.createdOn)}
+									</TableCell>
+									<TableCell>
+										{comment?.talk.title.toString()}
 									</TableCell>
 									<TableCell>
 										{comment?.author}

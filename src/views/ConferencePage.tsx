@@ -1,9 +1,11 @@
-import { Grid, List, ListItem, ListItemButton, ListItemText, Paper, Typography } from "@mui/material";
+import { Fab, Grid, List, ListItem, ListItemButton, ListItemText, Paper, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import BaseView from "./BaseView";
 import { useGetConferenceQuery } from '../lib/generated/gql/graphql'
 import { useState } from "react";
 import Talk from "./talks/Talk";
+import AddIcon from '@mui/icons-material/Add'
+import AddTalkToConferenceModal from './modals/AddTalkToConferenceModal'
 
 
 type TParams = {
@@ -18,6 +20,7 @@ export default function ConferencePage () {
 	const navigate = useNavigate()
 
 	const [activeTalk, setActiveTalk] = useState<string>()
+	const [openDialog, setOpenDialog] = useState<boolean>(false)
 
 	const {
 		data
@@ -33,14 +36,6 @@ export default function ConferencePage () {
 
 	const onSelectTalk = (id: string) => {
 		setActiveTalk(id)
-	}
-
-	let talks = undefined
-
-	if (data &&
-		data.conference &&
-		data.conference.talks) {
-		talks = data.conference.talks
 	}
 
 	const renderTalks = () => {
@@ -65,6 +60,14 @@ export default function ConferencePage () {
 		return undefined
 	}
 
+	const onOpenAddTalkToConferenceDialog = () => {
+		setOpenDialog(!openDialog)
+	}
+
+	const onClose = () => {
+		setOpenDialog(false)
+	}
+
 	return (
 		<BaseView title={data?.conference?.name} back={true} onBackClick={onBackClick}>
 			<Grid container spacing={3}>
@@ -74,10 +77,22 @@ export default function ConferencePage () {
 							p: 2,
 							display: 'flex',
 							flexDirection: 'column',
+							position: 'relative'
 						}}
 					>
 						<Typography variant="h6">Talks</Typography>
 						{renderTalks()}
+						<Fab
+							sx={{
+								position: 'absolute',
+								bottom: -24,
+								right: -24,
+							}}
+							onClick={onOpenAddTalkToConferenceDialog}
+							color="primary"
+							aria-label="add">
+							<AddIcon />
+						</Fab>
 					</Paper>
 				</Grid>
 				<Grid item xs={12} md={8} lg={8}>
@@ -87,6 +102,7 @@ export default function ConferencePage () {
 						)
 					}
 				</Grid>
+				{data?.conference?.id && <AddTalkToConferenceModal onAdded={onClose} onCancel={onClose} conferenceId={data?.conference.id} open={openDialog} />}
 			</Grid>
 		</BaseView>
 	)
