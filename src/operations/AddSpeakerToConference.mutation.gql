@@ -1,0 +1,11 @@
+mutation addSpeakerToTalk($talkId: Long!, $speakerId: Long!) {
+	addSpeakerToTalk(talkId: $talkId, speakerId: $speakerId) {
+   	id
+    title
+    summary
+    speakers {
+			id
+			name
+		}
+  }
+}

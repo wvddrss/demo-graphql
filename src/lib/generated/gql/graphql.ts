@@ -275,6 +275,14 @@ export type AddPersonMutationVariables = Exact<{
 
 export type AddPersonMutation = { __typename?: 'Mutation', addPerson?: { __typename?: 'Person', id: string } | null };
 
+export type AddSpeakerToTalkMutationVariables = Exact<{
+  talkId: Scalars['Long'];
+  speakerId: Scalars['Long'];
+}>;
+
+
+export type AddSpeakerToTalkMutation = { __typename?: 'Mutation', addSpeakerToTalk?: { __typename?: 'Talk', id: string, title: string, summary?: string | null, speakers?: Array<{ __typename?: 'Person', id: string, name: string }> | null } | null };
+
 export type AddTalkMutationVariables = Exact<{
   talkInput: InputTalk;
 }>;
@@ -327,7 +335,7 @@ export type GetTalkQuery = { __typename?: 'Query', talk?: { __typename?: 'Talk',
 export type GetTalksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTalksQuery = { __typename?: 'Query', talks?: Array<{ __typename?: 'Talk', id: string, title: string, summary?: string | null }> | null };
+export type GetTalksQuery = { __typename?: 'Query', talks?: Array<{ __typename?: 'Talk', id: string, title: string, summary?: string | null, speakers?: Array<{ __typename?: 'Person', id: string, name: string }> | null }> | null };
 
 
 export const AddCommentDocument = gql`
@@ -430,6 +438,46 @@ export function useAddPersonMutation(baseOptions?: Apollo.MutationHookOptions<Ad
 export type AddPersonMutationHookResult = ReturnType<typeof useAddPersonMutation>;
 export type AddPersonMutationResult = Apollo.MutationResult<AddPersonMutation>;
 export type AddPersonMutationOptions = Apollo.BaseMutationOptions<AddPersonMutation, AddPersonMutationVariables>;
+export const AddSpeakerToTalkDocument = gql`
+    mutation addSpeakerToTalk($talkId: Long!, $speakerId: Long!) {
+  addSpeakerToTalk(talkId: $talkId, speakerId: $speakerId) {
+    id
+    title
+    summary
+    speakers {
+      id
+      name
+    }
+  }
+}
+    `;
+export type AddSpeakerToTalkMutationFn = Apollo.MutationFunction<AddSpeakerToTalkMutation, AddSpeakerToTalkMutationVariables>;
+
+/**
+ * __useAddSpeakerToTalkMutation__
+ *
+ * To run a mutation, you first call `useAddSpeakerToTalkMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddSpeakerToTalkMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addSpeakerToTalkMutation, { data, loading, error }] = useAddSpeakerToTalkMutation({
+ *   variables: {
+ *      talkId: // value for 'talkId'
+ *      speakerId: // value for 'speakerId'
+ *   },
+ * });
+ */
+export function useAddSpeakerToTalkMutation(baseOptions?: Apollo.MutationHookOptions<AddSpeakerToTalkMutation, AddSpeakerToTalkMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddSpeakerToTalkMutation, AddSpeakerToTalkMutationVariables>(AddSpeakerToTalkDocument, options);
+      }
+export type AddSpeakerToTalkMutationHookResult = ReturnType<typeof useAddSpeakerToTalkMutation>;
+export type AddSpeakerToTalkMutationResult = Apollo.MutationResult<AddSpeakerToTalkMutation>;
+export type AddSpeakerToTalkMutationOptions = Apollo.BaseMutationOptions<AddSpeakerToTalkMutation, AddSpeakerToTalkMutationVariables>;
 export const AddTalkDocument = gql`
     mutation AddTalk($talkInput: InputTalk!) {
   addTalk(talk: $talkInput) {
@@ -754,6 +802,10 @@ export const GetTalksDocument = gql`
     id
     title
     summary
+    speakers {
+      id
+      name
+    }
   }
 }
     `;

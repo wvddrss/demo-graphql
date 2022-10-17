@@ -1,9 +1,10 @@
-import { Grid, Paper, Table, TableHead, TableRow, TableCell, TableBody, Fab, CircularProgress } from "@mui/material"
+import { Grid, Paper, Table, TableHead, TableRow, TableCell, TableBody, Fab, CircularProgress, Button } from "@mui/material"
 import BaseView from "./BaseView"
 import { useGetTalksQuery } from '../lib/generated/gql/graphql'
 import AddIcon from '@mui/icons-material/Add'
 import { useState } from "react"
 import AddTalkModal from "./modals/AddTalkModal"
+import AddSpeakerToTalkModal from "./modals/AddSpeakerToTalkModal"
 
 export default function PersonPage () {
 
@@ -12,13 +13,15 @@ export default function PersonPage () {
 		loading
 	} = useGetTalksQuery()
 
-	const [open, setOpen] = useState<boolean>(false)
+	const [openAddTalkModal, setOpenAddTalkModal] = useState<boolean>(false)
+	const [openAddSpeakerModal, setOpenAddSpeakerModal] = useState<string | undefined>()
 
 	const onOpenTalksModal = () => {
-		setOpen(true)
+		setOpenAddTalkModal(true)
 	}
 
 	let content: JSX.Element[] | JSX.Element = <TableRow><TableCell colSpan={3}>No talks yet...</TableCell></TableRow>
+
 	if (loading) {
 		content =	<TableRow><TableCell colSpan={3}><CircularProgress /></TableCell></TableRow>
 	} else if (data &&
@@ -32,16 +35,20 @@ export default function PersonPage () {
 				<TableCell>
 					{talk.summary}
 				</TableCell>
+				<TableCell>
+					{talk.speakers?.map(speaker => speaker.name).join(', ')}
+				</TableCell>
+				<TableCell><Button onClick={() => setOpenAddSpeakerModal(talk.id)}>Add speaker&nbsp;+</Button></TableCell>
 			</TableRow>
 		))
 	}
 
 	const onAddedTalk = () => {
-		setOpen(false)
+		setOpenAddTalkModal(false)
 	}
 
 	const onCancel = () => {
-		setOpen(false)
+		setOpenAddTalkModal(false)
 	}
 
 	return (
@@ -66,6 +73,12 @@ export default function PersonPage () {
 									<TableCell>
 										Summary
 									</TableCell>
+									<TableCell>
+										Talkers
+									</TableCell>
+									<TableCell>
+										Options
+									</TableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -86,8 +99,11 @@ export default function PersonPage () {
 					</Paper>
 				</Grid>
 				<AddTalkModal
-					open={open} onAdded={onAddedTalk} onCancel={onCancel}
+					open={openAddTalkModal} onAdded={onAddedTalk} onCancel={onCancel}
 				/>
+				{openAddSpeakerModal &&
+					<AddSpeakerToTalkModal open={!!openAddSpeakerModal} onAdded={() => setOpenAddSpeakerModal(undefined)} onCancel={() => setOpenAddSpeakerModal(undefined)} talkId={openAddSpeakerModal} />
+				}
 			</Grid>
 		</BaseView>
 	)

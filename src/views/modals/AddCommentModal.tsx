@@ -1,4 +1,3 @@
-import { gql } from "@apollo/client"
 import { TextField, Dialog, DialogTitle, DialogContent, DialogActions, Button, DialogProps } from "@mui/material"
 import { useFormik } from "formik"
 import { InputComment, useAddCommentMutation } from "../../lib/generated/gql/graphql"

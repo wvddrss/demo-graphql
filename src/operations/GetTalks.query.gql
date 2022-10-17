@@ -3,5 +3,9 @@ query getTalks {
 		id,
 		title
 		summary
+		speakers {
+			id
+			name
+		}
 	}
 }
