@@ -9,7 +9,9 @@ interface IProps extends DialogProps {
 	talkId: string
 }
 
-const labels: Record<keyof InputComment, string> = {
+type InputCommentWithoutTalkId = Omit<InputComment, 'talkId'>
+
+const labels: Record<keyof InputCommentWithoutTalkId, string> = {
 	comment: 'Comment',
 	author: 'Author',
 }
@@ -31,7 +33,7 @@ export default function AddTalkModal ({
 		// will be replaced by sockets
 	})
 
-	const formik = useFormik<Omit<InputComment, 'talkId'>>({
+	const formik = useFormik<InputCommentWithoutTalkId>({
 		initialValues: {
 			comment: 'OMG! Geweldig',
 			author: 'Me',
@@ -61,13 +63,13 @@ export default function AddTalkModal ({
 				margin="dense"
 				id={field}
 				name={field}
-				label={labels[field as keyof InputComment]}
+				label={labels[field as keyof InputCommentWithoutTalkId]}
 				type="text"
 				fullWidth
 				onChange={formik.handleChange}
-				value={formik.values[field as keyof InputComment]}
-				error={formik.touched[field as keyof InputComment] && Boolean(formik.errors[field as keyof InputComment])}
-				helperText={formik.touched[field as keyof InputComment] && formik.errors[field as keyof InputComment]}
+				value={formik.values[field as keyof InputCommentWithoutTalkId]}
+				error={formik.touched[field as keyof InputCommentWithoutTalkId] && Boolean(formik.errors[field as keyof InputCommentWithoutTalkId])}
+				helperText={formik.touched[field as keyof InputCommentWithoutTalkId] && formik.errors[field as keyof InputCommentWithoutTalkId]}
 				variant="standard"
 			/>
 		))

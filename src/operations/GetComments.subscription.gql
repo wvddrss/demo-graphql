@@ -1,13 +1,13 @@
 subscription GetNewComments {
-  comments {
-    id
-    comment
-    createdOn
-    author
-    talk {
-      id
-      title
-      summary
-    }
-  }
+	comments {
+		id
+		comment
+		createdOn
+		author
+		talk {
+			id
+			title
+			summary
+		}
+	}
 }

@@ -1,5 +1,5 @@
 mutation AddComment ($comment: InputComment!) {
-  addComment(comment: $comment) {
-    id
-  }
+	addComment(comment: $comment) {
+		id
+	}
 }
