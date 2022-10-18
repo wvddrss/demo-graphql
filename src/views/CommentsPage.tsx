@@ -1,6 +1,6 @@
 import { Card, CardContent, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { useEffect } from "react";
-import { useGetCommentsQuery, GetNewCommentsDocument, GetCommentsQuery } from "../lib/generated/gql/graphql";
+import { useGetCommentsQuery, GetNewCommentsDocument, GetCommentsQuery, GetNewCommentsSubscription } from "../lib/generated/gql/graphql";
 import BaseView from "./BaseView";
 
 export default function CommentsPage () {
@@ -10,7 +10,7 @@ export default function CommentsPage () {
 	} = useGetCommentsQuery()
 	
 	useEffect(() => {
-		subscribeToMore({
+		subscribeToMore <GetNewCommentsSubscription>({
 			document: GetNewCommentsDocument,
 			updateQuery: (prev, { subscriptionData }) => {
 				if (!prev || !prev.comments || !prev.comments.content) return prev;
@@ -19,7 +19,6 @@ export default function CommentsPage () {
 				if (prev.comments.pageInfo.pageSize === prev.comments.pageInfo.numberOfElements) {
 					newContent.splice(newContent.length, 1)
 				}
-				//@ts-ignore
 				newContent.unshift(newCommentItem)
 				const mergedWithOldData = {
 					...prev,
@@ -32,10 +31,6 @@ export default function CommentsPage () {
 			}
 		})
 	}, [subscribeToMore])
-
-	useEffect(() => {
-		console.log('new Data', data)
-	}, [data])
 
 	let content
 

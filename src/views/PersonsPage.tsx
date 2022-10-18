@@ -60,7 +60,7 @@ export default function PersonPage () {
 							position: 'relative'
 						}}
 					>
-						<Table>
+						<Table className='table'>
 							<TableHead>
 								<TableRow>
 									<TableCell>

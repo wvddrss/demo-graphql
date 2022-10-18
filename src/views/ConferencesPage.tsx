@@ -22,9 +22,19 @@ export default function ConferencesPage () {
 		return `/conference/${id}`
 	}
 
-	let content: JSX.Element[] | JSX.Element = <TableRow><TableCell colSpan={3}>No conferences yet...</TableCell></TableRow>
+	let content: JSX.Element[] | JSX.Element = (
+		<TableRow>
+			<TableCell colSpan={3}>
+				No conferences yet...
+			</TableCell>
+		</TableRow>
+	)
 	if (loading) {
-		content = <TableRow><TableCell colSpan={3}><CircularProgress /></TableCell></TableRow>
+		content = (<TableRow>
+			<TableCell colSpan={3}>
+				<CircularProgress />
+			</TableCell>
+		</TableRow>)
 	} else if (data &&
 		data.conferences &&
 		data.conferences.length > 0) {
@@ -64,7 +74,7 @@ export default function ConferencesPage () {
 							position: 'relative'
 						}}
 					>
-						<Table>
+						<Table className='table'>
 							<TableHead>
 								<TableRow>
 									<TableCell>

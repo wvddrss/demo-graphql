@@ -14,6 +14,7 @@ const httpLink = new HttpLink({
 const wsLink = new WebSocketLink(
 	new SubscriptionClient("ws://localhost:8080/subscriptions")
 );
+
 const splitLink = split(
 	({ query }) => {
 		const definition = getMainDefinition(query);

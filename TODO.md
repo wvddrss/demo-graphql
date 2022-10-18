@@ -8,6 +8,7 @@
 6. `npm install react-router-dom`
 7. `npm install -D @graphql-codegen/typescript-react-apollo`
 8. `npm install formik`
+8. `npm install yup`
 9. !!`npm install subscriptions-transport-ws` instead of `graphql-ws`
 
 ## Process
@@ -15,16 +16,14 @@
 
 
 ## TDOO
-+ list comments
-	- write helper for dates
-- edit conference view
-	+ add comment
-	- add talks
-	- add speakers
-- check subscriptions
 
 
 ## DONE
+- edit conference view
+	+ add comment
+	! add talks
+	+ add speakers
+- check subscriptions
 + list of conferences
 + add conference
 	+ use formik for form validation

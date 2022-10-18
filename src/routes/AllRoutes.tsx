@@ -33,10 +33,6 @@ export const mainRoutes = [{
 }]
 
 const subRoutes = [{
-	key: 'conferences',
-	path: '/',
-	component: <ConferencesPage />
-}, {
 	key: 'conference',
 	path: '/conference/:id',
 	component: <ConferencePage />

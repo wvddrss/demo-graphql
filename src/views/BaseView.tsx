@@ -1,6 +1,8 @@
 import { ChevronLeft } from '@mui/icons-material';
 import { AppBar as MuiAppBar, AppBarProps, Box, Container, Grid, IconButton, styled, Toolbar, Typography } from '@mui/material';
 import SideBar from '../components/SideBar';
+import MenuIcon from '@mui/icons-material/Menu';
+import { useState } from 'react';
 
 const AppBar = styled(MuiAppBar)<AppBarProps>(({ theme }) => ({
 	zIndex: theme.zIndex.drawer + 1,
@@ -19,9 +21,13 @@ export default function BaseView ({
 	back,
 	onBackClick,
 }: IProps) {
+	const [sideBarOpen, setSideBarOpen] = useState<boolean>(false)
+	const onMenuClick = () => {
+		setSideBarOpen(!sideBarOpen)
+	}
 	return (
 		<>
-			<SideBar />
+			<SideBar onClose={() => setSideBarOpen(false)} open={sideBarOpen} />
 			<AppBar position="absolute">
 				<Toolbar
 					sx={{
@@ -29,14 +35,23 @@ export default function BaseView ({
 					}}
 				>
 					{
-						back &&
+						back ?
+						<IconButton
+							edge="start"
+							color="inherit"
+							aria-label="go back"
+							onClick={onBackClick}
+						>
+							<ChevronLeft />
+						</IconButton>
+						:
 						<IconButton
 							edge="start"
 							color="inherit"
 							aria-label="open drawer"
-							onClick={onBackClick}
+							onClick={onMenuClick}
 						>
-							<ChevronLeft />
+							<MenuIcon />
 						</IconButton>
 					}
 					<Typography

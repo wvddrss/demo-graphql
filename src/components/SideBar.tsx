@@ -2,10 +2,17 @@ import { Drawer, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/m
 import { mainRoutes } from '../routes/AllRoutes'
 import { useNavigate } from "react-router-dom";
 
-export default function SideBar () {
+interface IProps {
+	onClose: () => void
+	open: boolean
+}
+export default function SideBar ({
+	onClose,
+	open
+}: IProps) {
 	const navigate = useNavigate()
 	return (
-		<Drawer variant="permanent">
+		<Drawer onClose={onClose} open={open}>
 			<List component="nav" style={{paddingTop: 90}}>
 				{mainRoutes.map(route => (
 					<ListItemButton key={route.key} onClick={() => navigate(route.path)}>

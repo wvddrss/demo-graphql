@@ -19,9 +19,6 @@ export default function ConferencePage () {
 
 	const navigate = useNavigate()
 
-	const [activeTalk, setActiveTalk] = useState<string>()
-	const [openDialog, setOpenDialog] = useState<boolean>(false)
-
 	const {
 		data
 	} = useGetConferenceQuery({
@@ -29,6 +26,10 @@ export default function ConferencePage () {
 			id: id
 		}
 	})
+
+	const [activeTalk, setActiveTalk] = useState<string>()
+	const [openDialog, setOpenDialog] = useState<boolean>(false)
+
 
 	const onBackClick = () => {
 		navigate('/')
@@ -41,7 +42,8 @@ export default function ConferencePage () {
 	const renderTalks = () => {
 		if (data &&
 			data.conference &&
-			data.conference.talks) {
+			data.conference.talks &&
+			data.conference.talks.length > 0) {
 			const {
 				talks
 			} = data.conference
@@ -57,7 +59,9 @@ export default function ConferencePage () {
 				</List>
 			)
 		}
-		return undefined
+		return (
+			<Typography variant="body2" color={'GrayText'}>No talks added yet...</Typography>
+		)
 	}
 
 	const onOpenAddTalkToConferenceDialog = () => {

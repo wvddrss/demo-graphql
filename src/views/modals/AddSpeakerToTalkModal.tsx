@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client"
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, DialogProps, Select, MenuItem } from "@mui/material"
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, DialogProps, Select, MenuItem, FormControl, InputLabel } from "@mui/material"
 import { useFormik } from "formik"
 import { MutationAddSpeakerToTalkArgs, useAddSpeakerToTalkMutation, useGetPersonsQuery, } from "../../lib/generated/gql/graphql"
 
@@ -62,7 +62,7 @@ export default function AddSpeakerToTalkModal ({
 
 	const formik = useFormik<Omit<MutationAddSpeakerToTalkArgs, 'talkId'>>({
 		initialValues: {
-			speakerId: -1
+			speakerId: ''
 		},
 		onSubmit: (values) => {
 			mutate({
@@ -81,22 +81,26 @@ export default function AddSpeakerToTalkModal ({
 
 	return (
 		<Dialog {...props} onClose={onCancel}>
-			<DialogTitle>Add a new talk</DialogTitle>
+			<DialogTitle>Add a new speaker</DialogTitle>
 			<form onSubmit={formik.handleSubmit}>
 				<DialogContent>
-					<Select
-						autoFocus
-						margin="dense"
-						id={'speakerId'}
-						name={'speakerId'}
-						label='Talks'
-						value={formik.values.speakerId}
-						onChange={formik.handleChange}
-					>
-						{data?.persons?.map(person => (
-							<MenuItem key={person.id} value={person.id}>{person.name}</MenuItem>
-						))}
-					</Select>
+					<FormControl fullWidth>
+						<InputLabel id='speakerLabel'>Speaker</InputLabel>
+						<Select
+							labelId="speakerLabel"
+							autoFocus
+							margin="dense"
+							id={'speakerId'}
+							name={'speakerId'}
+							label='Talks'
+							value={formik.values.speakerId}
+							onChange={formik.handleChange}
+						>
+							{data?.persons?.map(person => (
+								<MenuItem key={person.id} value={person.id}>{person.name}</MenuItem>
+							))}
+						</Select>
+					</FormControl>
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={onCancelHandler}>Cancel</Button>
