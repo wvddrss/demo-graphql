@@ -1,6 +1,9 @@
-# Getting Started with Create React App
+# Demo graphql project.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+This works with the demo back-end:
+`docker run npalm/graphql-demo -p 8080:8080`
+
 
 ## Available Scripts
 
