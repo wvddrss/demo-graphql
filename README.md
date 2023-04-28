@@ -1,6 +1,6 @@
 # Demo graphql project.
 
-
+You can find information about the structure of the backend [here](https://hub.docker.com/r/npalm/graphql-demo).
 This works with the demo back-end:
 `docker run npalm/graphql-demo -p 8080:8080`
 
